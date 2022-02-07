@@ -69,12 +69,12 @@ func CreateCA(options *CertOpts) (Keypair, error) {
 // CreateCertificate generates a new keypair signed by self-signed CA
 func CreateCertificate(caKp Keypair, options *CertOpts) (Keypair, error) {
 
-	caCrt, err := parseCertificate(caKp.Certificate())
+	caCrt, err := ParseCertificate(caKp.Certificate())
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse CA certificate. %v", err)
 	}
 
-	caPk, err := parsePrivateKey(caKp.PrivateKey())
+	caPk, err := ParsePrivateKey(caKp.PrivateKey())
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse CA private key. %v", err)
 	}
@@ -142,7 +142,7 @@ func encodeToPemFormat(kType string, data []byte) []byte {
 	})
 }
 
-func parseCertificate(pemBytes []byte) (*x509.Certificate, error) {
+func ParseCertificate(pemBytes []byte) (*x509.Certificate, error) {
 	block, _ := pem.Decode(pemBytes)
 	if block == nil {
 		return nil, fmt.Errorf("failed to decode CA certificate. %v", ErrInvalidPEMBlock)
@@ -156,7 +156,7 @@ func parseCertificate(pemBytes []byte) (*x509.Certificate, error) {
 	return caCrt, nil
 }
 
-func parsePrivateKey(pemBytes []byte) (*rsa.PrivateKey, error) {
+func ParsePrivateKey(pemBytes []byte) (*rsa.PrivateKey, error) {
 	block, _ := pem.Decode(pemBytes)
 	if block == nil {
 		return nil, fmt.Errorf("failed to decode private key. %v", ErrInvalidPEMBlock)

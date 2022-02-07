@@ -1,49 +1,76 @@
 package main
 
 import (
+	"crypto/rand"
 	"crypto/x509"
+	"fmt"
+	"github.com/antonioua/go-tools/v2/pkcs12/certs"
 	"io/ioutil"
 	"log"
 	"software.sslmate.com/src/go-pkcs12"
 	_ "software.sslmate.com/src/go-pkcs12"
-	"strings"
 )
 
 func main() {
-	key, err := ioutil.ReadFile("./certs/localhost_key.pem")
-	if err != nil {
-		log.Fatalf("Cannot read key. Error: %v", err)
-	}
-	//fmt.Printf("keyFile contents: %s", key)
+	opts := certs.MakeDefaultOptions()
 
-	cert, err := ioutil.ReadFile("./certs/localhost_cert.pem")
+	caKp, err := certs.CreateCA(opts)
 	if err != nil {
-		log.Fatalf("Cannot read cert. Error: %v", err)
-	}
-	parsedCert, err := x509.ParseDERCRL(cert)
-	if err != nil {
-		log.Fatalf("Cannot parse cert. Error: %v", err)
+		log.Fatalf("Cannot create CA certificate. %v", err)
 	}
 
-	ca, err := ioutil.ReadFile("./certs/ca_cert.pem")
+	err = ioutil.WriteFile("./files/test-ca.pem", caKp.Certificate(), 0755)
 	if err != nil {
-		log.Fatalf("Cannot read ca. Error: %v", err)
-	}
-	parsedCA, err := x509.ParseCertificate(ca)
-	if err != nil {
-		log.Fatalf("Cannot parse ca. Error: %v", err)
+		log.Fatal("error writing Certificate file")
 	}
 
-	parsedCAs := make([]*x509.Certificate, 1)
-	parsedCAs = append(parsedCAs, parsedCA)
+	parsedCACrt, err := certs.ParseCertificate(caKp.Certificate())
+	if err != nil {
+		log.Fatalf("Failed to parse pem to der CA certificate. %v", err)
+	}
 
-	encodedBytes, err := pkcs12.Encode(strings.NewReader("blablabla"), key, parsedCert, parsedCAs, "password")
+	opts.DnsNames = []string{
+		"mydomain.com",
+	}
+	opts.Org = "Test App"
+
+	kp, err := certs.CreateCertificate(caKp, opts)
+	if err != nil {
+		log.Fatalf("Cannot crate certificate. %v", err)
+	}
+
+	parsedCrt, err := certs.ParseCertificate(kp.Certificate())
+	if err != nil {
+		log.Fatalf("Cannot parse certificate. %v", err)
+	}
+
+	err = ioutil.WriteFile("./files/test-key.pem", kp.PrivateKey(), 0755)
+	if err != nil {
+		log.Fatal("error writing PrivateKey file")
+	}
+
+	parsedKey, err := certs.ParsePrivateKey(kp.PrivateKey())
+	if err != nil {
+		log.Fatalf("Cannot parse private key. %v", err)
+	}
+
+	fmt.Println("Encoding...")
+	pfxBytes, err := pkcs12.Encode(rand.Reader, parsedKey, parsedCrt, []*x509.Certificate{parsedCACrt}, pkcs12.DefaultPassword)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = ioutil.WriteFile("./certs/archive.p12", encodedBytes, 0755)
+	// see if pfxBytes valid
+	_, _, _, err = pkcs12.DecodeChain(pfxBytes, pkcs12.DefaultPassword)
 	if err != nil {
-		return
+		panic(err)
 	}
+
+	fmt.Println("Writing keystore.p12 file...")
+	err = ioutil.WriteFile("./files/keystore.p12", pfxBytes, 0755)
+	if err != nil {
+		log.Fatalf("Cannot write PKCS12 file archive. %v", err)
+	}
+
+	// truststorep.12
 }
