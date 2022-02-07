@@ -46,6 +46,8 @@ func CreateCA(options *CertOpts) (Keypair, error) {
 		ExtKeyUsage:           []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth, x509.ExtKeyUsageClientAuth},
 		BasicConstraintsValid: true,
 		Subject:               pkix.Name{Organization: []string{options.Org}},
+		//SignatureAlgorithm:    3,
+		//PublicKeyAlgorithm:    1,
 	}
 
 	pk, err := rsa.GenerateKey(rand.Reader, options.KeySize)
@@ -81,15 +83,17 @@ func CreateCertificate(caKp Keypair, options *CertOpts) (Keypair, error) {
 
 	// Generate new KeyPair
 	crt := &x509.Certificate{
-		IsCA:                  false,
+		SerialNumber:          options.SerialNum,
+		Subject:               caCrt.Subject,
 		NotBefore:             time.Now(),
 		NotAfter:              caCrt.NotAfter,
-		SerialNumber:          options.SerialNum,
 		KeyUsage:              x509.KeyUsageDigitalSignature,
 		ExtKeyUsage:           []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth, x509.ExtKeyUsageClientAuth},
 		BasicConstraintsValid: true,
-		Subject:               caCrt.Subject,
+		IsCA:                  false,
 		DNSNames:              options.DnsNames,
+		//SignatureAlgorithm:    3,
+		//PublicKeyAlgorithm:    1,
 	}
 
 	if len(options.DnsNames) > 0 {
