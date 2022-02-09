@@ -8,7 +8,6 @@ import (
 	"io/ioutil"
 	"log"
 	"software.sslmate.com/src/go-pkcs12"
-	_ "software.sslmate.com/src/go-pkcs12"
 )
 
 func main() {
