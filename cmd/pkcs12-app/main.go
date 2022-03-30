@@ -4,7 +4,7 @@ import (
 	"crypto/rand"
 	"crypto/x509"
 	"fmt"
-	"github.com/antonioua/go-tools/v2/pkcs12/certs"
+	"github.com/antonioua/go-tools/v2/pkg/pkcs12/certs"
 	"io/ioutil"
 	"log"
 	"software.sslmate.com/src/go-pkcs12"
