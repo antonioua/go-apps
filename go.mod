@@ -1,8 +1,7 @@
 module github.com/antonioua/go-tools/v2
 
-go 1.17
+go 1.18
 
-require (
-	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83 // indirect
-	software.sslmate.com/src/go-pkcs12 v0.0.0-20210415151418-c5206de65a78 // indirect
-)
+require software.sslmate.com/src/go-pkcs12 v0.2.0
+
+require golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa // indirect
