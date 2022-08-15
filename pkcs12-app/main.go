@@ -4,9 +4,10 @@ import (
 	"crypto/rand"
 	"crypto/x509"
 	"fmt"
-	"github.com/antonioua/go-tools/v2/pkg/pkcs12/certs"
+	"github.com/antonioua/pkcs12-app/certs"
 	"io/ioutil"
 	"log"
+	"os"
 	"software.sslmate.com/src/go-pkcs12"
 )
 
@@ -15,7 +16,12 @@ func main() {
 
 	caKp, err := certs.CreateCA(opts)
 	if err != nil {
-		log.Fatalf("Cannot create CA certificate. %v", err)
+		log.Fatal("Cannot create CA certificate", err)
+	}
+
+	err = os.MkdirAll("./files", 0755)
+	if err != nil {
+		log.Fatal("Cannot create directory", err)
 	}
 
 	err = ioutil.WriteFile("./files/ca.pem", caKp.Certificate(), 0755)

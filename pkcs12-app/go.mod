@@ -1,4 +1,4 @@
-module github.com/antonioua/go-tools/v2
+module github.com/antonioua/pkcs12-app
 
 go 1.18
 
