@@ -9,7 +9,7 @@ var msg string
 var wg sync.WaitGroup
 
 func updateMessage(s string) {
-	defer wg.Done()
+	defer wg.Done() // It'll decrement waitgroup by one
 	msg = s
 }
 

@@ -34,6 +34,6 @@ func main() {
 }
 
 func printSomething(s string, wg *sync.WaitGroup) {
-	defer wg.Done()
+	defer wg.Done() // It'll decrement waitgroup by one
 	fmt.Println(s)
 }
