@@ -20,7 +20,7 @@ func main() {
 		"delta",
 	}
 
-	wg.Add(len(words))
+	wg.Add(len(words)) // get correct numbers of semaphores
 
 	for i, s := range words {
 		go printSomething(fmt.Sprintf("%d: %s", i, s), &wg)

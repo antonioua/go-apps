@@ -34,7 +34,7 @@ func main() {
 	}
 
 	for _, w := range words {
-		wg.Add(1)
+		wg.Add(1) // add semaphore
 		go updateMessage(w)
 		wg.Wait()
 		printMessage()
