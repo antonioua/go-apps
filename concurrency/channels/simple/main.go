@@ -5,7 +5,8 @@ import (
 	"strings"
 )
 
-func shout(ping <-chan string, pong chan<- string) { // ping is receiver only, pong is only a sender channel
+func shout(ping <-chan string, pong chan<- string) { // ping is receiver only, pong is only a sender channel.
+	// Please note that <-chan and chan<- is not necessary here.
 	for {
 		s := <-ping
 		pong <- fmt.Sprintf("%s!!!\n", strings.ToUpper(s))
