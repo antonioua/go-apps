@@ -5,6 +5,11 @@ import (
 	"sync"
 )
 
+func printSomething(s string, wg *sync.WaitGroup) {
+	defer wg.Done() // It'll decrement waitgroup by one
+	fmt.Println(s)
+}
+
 func main() {
 	var wg sync.WaitGroup
 
@@ -31,9 +36,4 @@ func main() {
 	wg.Add(1)
 
 	printSomething("This is the second thing to be printed", &wg)
-}
-
-func printSomething(s string, wg *sync.WaitGroup) {
-	defer wg.Done() // It'll decrement waitgroup by one
-	fmt.Println(s)
 }

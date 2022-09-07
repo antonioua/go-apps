@@ -8,6 +8,13 @@ import (
 var wg sync.WaitGroup
 var msg string
 
+func updateMessage(s string, m *sync.Mutex) {
+	defer wg.Done()
+	m.Lock()
+	msg = s
+	m.Unlock()
+}
+
 func main() {
 	var mutex sync.Mutex
 
@@ -20,11 +27,4 @@ func main() {
 
 	fmt.Println(msg)
 
-}
-
-func updateMessage(s string, m *sync.Mutex) {
-	defer wg.Done()
-	m.Lock()
-	msg = s
-	m.Unlock()
 }
