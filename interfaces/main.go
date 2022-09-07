@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 const insufficientFundsError = "insufficient funds"
 
@@ -12,6 +15,7 @@ type IBankAccount interface {
 }
 
 func main() {
+	now := time.Now()
 	myAccounts := []IBankAccount{
 		NewWellsFargoAccount(),
 		NewBitcoinAccount(),
@@ -24,5 +28,6 @@ func main() {
 		}
 
 		fmt.Printf("Balance for account %s: %d\n", account.GetName(), account.GetBalance())
+		fmt.Println("Elapsed: ", time.Since(now))
 	}
 }
