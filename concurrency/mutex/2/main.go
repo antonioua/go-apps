@@ -14,7 +14,6 @@ type Income struct {
 }
 
 func main() {
-	// variable for bank balance
 	var bankBalance float64
 
 	// print out starting values
