@@ -1,0 +1,15 @@
+apiVersion: skaffold/v2beta25
+kind: Config
+build:
+  artifacts:
+  - image: "xdesigns/go-imdb"
+    context: .
+    docker:
+      dockerfile: Dockerfile
+  tagPolicy:
+    envTemplate:
+      template: "{{.USER}}"
+  local:
+    push: true
+#    useDockerCLI: true
+#    concurrency: 4
