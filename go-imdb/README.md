@@ -1,5 +1,7 @@
 # go-imdb
 
+## Task description https://drive.google.com/file/d/162xzSGFzJMdhV1bqmTu9wgWBLqH2jaKO/view
+
 ## Read and process file concurrently
 https://betterprogramming.pub/file-processing-using-concurrency-with-golang-9e08920fab63
 
