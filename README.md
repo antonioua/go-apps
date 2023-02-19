@@ -7,5 +7,5 @@ Create a new module.
 > The name must be uniq
 
 ```bash
-go mod init github.com/antonioua/go-tools/concurrency/new-examples/fork-join
+go mod init github.com/antonioua/go-tools/concurrency/new-examples/multiple-tasks
 ```
