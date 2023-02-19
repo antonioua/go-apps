@@ -14,14 +14,14 @@ func main() {
 	go func() { // process forks here
 		defer wg.Done()
 		doSomeStuff()
-		fmt.Println("Goroutine is done")
 	}()
 
 	wg.Wait() // process doing join here
 	fmt.Println("elapsed: ", time.Since(now))
+	fmt.Println("Done waiting, main exits")
 }
 
 func doSomeStuff() {
 	time.Sleep(time.Millisecond * 500)
-	fmt.Println("doSomeStuff is finished")
+	fmt.Println("printing some stuff...")
 }
