@@ -22,7 +22,7 @@ func main() {
 				msg = f[1]
 			}
 		}
-		fmt.Printf("hell oand welcome: %s\n", msg)
+		fmt.Printf("hello and welcome: %s\n", msg)
 	case "help":
 		fmt.Println("some help message")
 	default:
