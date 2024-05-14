@@ -5,7 +5,7 @@ import (
 )
 
 type Config struct {
-	// Filed starts from uppercase letter allow accessing it
+	// Fields starts from uppercase letter allow accessing it
 	FilePath       string
 	TitleType      string
 	PrimaryTitle   string
