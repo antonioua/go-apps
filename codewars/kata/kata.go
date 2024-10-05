@@ -1,16 +1,11 @@
 package kata
 
-func Between(a, b int) []int {
-	if a > b {
-		return nil
+func HoopCount(n int) string {
+	res := ""
+	if n >= 10 {
+		res = "Great, now move on to tricks"
+	} else {
+		res = "Keep at it until you get it"
 	}
-
-	var resArr []int
-
-	for i := a; i <= b; i++ {
-		resArr = append(resArr, i)
-	}
-
-	return resArr
-
+	return res
 }
