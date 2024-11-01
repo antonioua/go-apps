@@ -1,4 +1,4 @@
-package kata_test
+package roman_nummerals_decoder_test
 
 import (
 	"testing"
