@@ -20,6 +20,6 @@ func main() {
 }
 
 func attack(target string, wg *sync.WaitGroup) {
+	defer wg.Done()
 	fmt.Println("Attacking ", target)
-	wg.Done()
 }
